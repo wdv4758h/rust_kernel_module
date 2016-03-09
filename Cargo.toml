@@ -3,7 +3,9 @@ name = "kernel_module"
 version = "0.1.0"
 authors = ["Chiu-Hsiang Hsu <wdv4758h@gmail.com>"]
 
-[dependencies]
+[dependencies.core]
+git = "https://github.com/phil-opp/nightly-libcore.git"
+features = ["disable_float"]    # No CPU instructions that write to floating-point registers
 
 
 # The development profile, used for `cargo build`
