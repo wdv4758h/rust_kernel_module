@@ -1,0 +1,23 @@
+########################################
+# Linux Kernel Module Setting
+########################################
+
+KERNEL_VERSION    := $(shell uname -r)
+KERNEL_BUILD_PATH := /lib/modules/$(KERNEL_VERSION)/build
+
+# Object Files
+obj-m             += ${KERNEL_MODULE}.o     # tell kbuild which files to build
+${KERNEL_MODULE}-objs := src/stubs/linux.o ${rust-target}   # let them link together
+
+########################################
+# Rules
+########################################
+
+all:
+	$(CARGO_BUILD)
+	$(MAKE) -C $(KERNEL_BUILD_PATH) M=$(CURDIR) modules
+	cp "$(KERNEL_MODULE).ko" "$(KERNEL_MODULE).stripped.ko" && strip "$(KERNEL_MODULE).stripped.ko"
+
+clean:
+	$(MAKE) -C $(KERNEL_BUILD_PATH) M=$(CURDIR) clean
+	$(CARGO_CLEAN)
