@@ -2,6 +2,12 @@
 KERNEL_MODULE := hello
 
 ########################################
+# platform variable
+########################################
+
+OS ?= $(shell uname)
+
+########################################
 # Rust Setting
 ########################################
 
@@ -11,13 +17,11 @@ KERNEL_MODULE := hello
 TRIPLE := x86_64-unknown-none-gnu
 CARGO  ?= $(shell which cargo)
 rust-target := ${KERNEL_MODULE}_rust.o    # build by Cargo
-CARGO_BUILD ?= $(CARGO) rustc --release --verbose $(CARGOFLAGS) --target="$(TRIPLE)" -- --emit obj -o $(rust-target)
+CARGO_BUILD ?= $(CARGO) rustc --release --verbose $(CARGOFLAGS) --features "$(OS)" --target="$(TRIPLE)" -- --emit obj -o $(rust-target)
 CARGO_CLEAN ?= $(CARGO) clean; rm -f *.d *.rlib
 
 ########################################
 # choose Makefile for specific OS
 ########################################
-
-OS     ?= $(shell uname)
 
 include $(PWD)/makefiles/Makefile.$(OS)
