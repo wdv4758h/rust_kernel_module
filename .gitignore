@@ -3,6 +3,12 @@
 *.so
 *.rlib
 *.dll
+*.d
+*.cmd
+*.ko
+*.order
+*.symvers
+.tmp_versions/
 
 # Executables
 *.exe
